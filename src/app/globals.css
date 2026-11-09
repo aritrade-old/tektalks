@@ -1,0 +1,191 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-geist-sans);
+
+  --color-navy: #0b1020;
+  --color-navy-800: #0f1629;
+  --color-navy-700: #151d35;
+  --color-charcoal: #111827;
+  --color-electric: #3867ff;
+  --color-electric-400: #5b84ff;
+  --color-electric-300: #8aa6ff;
+  --color-mist: #f5f7fb;
+  --color-steel: #9ca3af;
+  --color-slate-ink: #4b5468;
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  --animate-pulse-travel: pulse-travel 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  --animate-scan: scan 4s ease-in-out infinite;
+  --animate-float-slow: float-slow 8s ease-in-out infinite;
+
+  @keyframes pulse-travel {
+    0% {
+      top: 0%;
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      top: 100%;
+      opacity: 0;
+    }
+  }
+
+  @keyframes scan {
+    0%,
+    100% {
+      transform: translateX(-10%);
+    }
+    50% {
+      transform: translateX(110%);
+    }
+  }
+
+  @keyframes float-slow {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #0b1020;
+  --card: #ffffff;
+  --card-foreground: #0b1020;
+  --popover: #ffffff;
+  --popover-foreground: #0b1020;
+  --primary: #3867ff;
+  --primary-foreground: #ffffff;
+  --secondary: #f5f7fb;
+  --secondary-foreground: #0b1020;
+  --muted: #f5f7fb;
+  --muted-foreground: #4b5468;
+  --accent: #eef2ff;
+  --accent-foreground: #0b1020;
+  --destructive: #dc2626;
+  --border: #e4e8f0;
+  --input: #d7dce6;
+  --ring: #3867ff;
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: #0b1020;
+  --foreground: #ffffff;
+  --card: #111827;
+  --card-foreground: #ffffff;
+  --popover: #0f1629;
+  --popover-foreground: #ffffff;
+  --primary: #3867ff;
+  --primary-foreground: #ffffff;
+  --secondary: #151d35;
+  --secondary-foreground: #ffffff;
+  --muted: #151d35;
+  --muted-foreground: #9ca3af;
+  --accent: #151d35;
+  --accent-foreground: #ffffff;
+  --destructive: #f87171;
+  --border: rgb(255 255 255 / 10%);
+  --input: rgb(255 255 255 / 16%);
+  --ring: #5b84ff;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply scroll-smooth font-sans;
+    scroll-padding-top: 5.5rem;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "ss01", "cv11";
+  }
+  ::selection {
+    background: rgb(56 103 255 / 25%);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 5%) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 5%) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+  .bg-grid-light {
+    background-image:
+      linear-gradient(to right, rgb(11 16 32 / 5%) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(11 16 32 / 5%) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+  .mask-fade-b {
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 40%, transparent 100%);
+  }
+  .glow-electric {
+    background: radial-gradient(closest-side, rgb(56 103 255 / 35%), transparent);
+  }
+  .text-gradient-electric {
+    background: linear-gradient(100deg, #8aa6ff 0%, #3867ff 55%, #5b84ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .eyebrow {
+    @apply inline-flex items-center gap-2 font-mono text-[0.72rem] font-medium tracking-[0.18em] uppercase;
+  }
+}
