@@ -5,30 +5,24 @@ import { CalendarCheck, CircleAlert, ExternalLink, LoaderCircle, RotateCw } from
 
 import { siteConfig } from "@/config/site";
 import { captureAttribution } from "@/lib/attribution";
-import {
-  buildCalendlyLink,
-  ensureCalendlyStylesheet,
-  isCalendlyMessage,
-  loadCalendly,
-  toCalendlyUtm,
-} from "@/lib/calendly";
+import { buildCalLink, loadCal, parseCalBooking, withAttribution } from "@/lib/cal";
 import { cn } from "@/lib/utils";
 
 type Status = "loading" | "ready" | "error";
 
 const READY_TIMEOUT_MS = 20000;
 
-type CalendlyEmbedProps = {
+type CalEmbedProps = {
   url?: string;
   className?: string;
   title?: string;
 };
 
-export function CalendlyEmbed({
-  url = siteConfig.calendlyUrl,
+export function CalEmbed({
+  url = siteConfig.bookingUrl,
   className,
   title = "Schedule a 20-minute discovery call with RevEx Consultancy",
-}: CalendlyEmbedProps) {
+}: CalEmbedProps) {
   const widgetRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<Status>("loading");
   const [scheduled, setScheduled] = useState(false);
@@ -41,37 +35,42 @@ export function CalendlyEmbed({
 
     let cancelled = false;
     let readyTimer: number | undefined;
+    let detach = () => {};
     const attribution = captureAttribution();
-    const markReady = () => {
-      if (cancelled) return;
-      window.clearTimeout(readyTimer);
-      setStatus("ready");
-    };
+    const booking = parseCalBooking(url);
+    setFallbackHref(buildCalLink(booking.url, attribution));
 
-    function onMessage(event: MessageEvent) {
-      if (!isCalendlyMessage(event)) return;
-      markReady();
-      if (event.data.event === "calendly.event_scheduled") setScheduled(true);
-    }
-    window.addEventListener("message", onMessage);
-
-    ensureCalendlyStylesheet();
-    loadCalendly()
-      .then((calendly) => {
+    loadCal()
+      .then((cal) => {
         if (cancelled) return;
-        setFallbackHref(buildCalendlyLink(url, attribution));
+        const onReady = () => {
+          if (cancelled) return;
+          window.clearTimeout(readyTimer);
+          setStatus("ready");
+          const iframe = parent.querySelector("iframe");
+          if (iframe) iframe.title = title;
+        };
+        const onFailed = () => {
+          if (!cancelled) setStatus("error");
+        };
+        const onBooked = () => {
+          if (!cancelled) setScheduled(true);
+        };
+        cal("on", { action: "linkReady", callback: onReady });
+        cal("on", { action: "linkFailed", callback: onFailed });
+        cal("on", { action: "bookingSuccessfulV2", callback: onBooked });
+        detach = () => {
+          cal("off", { action: "linkReady", callback: onReady });
+          cal("off", { action: "linkFailed", callback: onFailed });
+          cal("off", { action: "bookingSuccessfulV2", callback: onBooked });
+        };
+
         parent.innerHTML = "";
-        calendly.initInlineWidget({
-          url,
-          parentElement: parent,
-          utm: toCalendlyUtm(attribution),
-          resize: true,
+        cal("inline", {
+          elementOrSelector: parent,
+          calLink: booking.calLink,
+          config: { layout: "month_view", theme: "light", ...withAttribution(booking.config, attribution) },
         });
-        const iframe = parent.querySelector("iframe");
-        if (iframe) {
-          iframe.title = title;
-          iframe.addEventListener("load", markReady, { once: true });
-        }
         readyTimer = window.setTimeout(() => {
           if (!cancelled) setStatus((current) => (current === "ready" ? current : "error"));
         }, READY_TIMEOUT_MS);
@@ -83,9 +82,8 @@ export function CalendlyEmbed({
     return () => {
       cancelled = true;
       window.clearTimeout(readyTimer);
-      window.removeEventListener("message", onMessage);
+      detach();
       parent.innerHTML = "";
-      parent.style.removeProperty("height");
     };
   }, [url, title, attempt]);
 
@@ -98,11 +96,8 @@ export function CalendlyEmbed({
     <div className={cn("relative", className)}>
       <div
         ref={widgetRef}
-        id="calendly-embed"
-        className={cn(
-          "relative h-[1080px] w-full min-w-[280px] overflow-hidden sm:h-[960px] md:h-[750px]",
-          status === "error" && "hidden",
-        )}
+        id="cal-embed"
+        className={cn("relative min-h-[640px] w-full min-w-[280px]", status === "error" && "hidden")}
         aria-busy={status === "loading"}
       />
 
@@ -114,7 +109,7 @@ export function CalendlyEmbed({
           <LoaderCircle aria-hidden="true" className="size-8 animate-spin text-electric" />
           <div>
             <p className="font-medium text-navy">Loading live availability…</p>
-            <p className="mt-1 text-sm text-slate-ink">Connecting to the RevEx Calendly scheduler.</p>
+            <p className="mt-1 text-sm text-slate-ink">Connecting to the RevEx booking calendar.</p>
           </div>
         </div>
       ) : null}
@@ -131,7 +126,7 @@ export function CalendlyEmbed({
             <p className="text-lg font-semibold text-navy">The scheduler couldn&apos;t load here</p>
             <p className="mt-2 text-sm leading-relaxed text-slate-ink">
               This can happen when a browser extension or network blocks embedded content. You can
-              retry, or book on Calendly directly — it&apos;s the same calendar.
+              retry, or book on Cal.com directly — it&apos;s the same calendar.
             </p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-3">
@@ -149,7 +144,7 @@ export function CalendlyEmbed({
               rel="noopener noreferrer"
               className="inline-flex h-11 items-center gap-2 rounded-full bg-electric px-5 text-sm font-medium text-white transition hover:bg-electric-400 focus-visible:ring-3 focus-visible:ring-electric/50 focus-visible:outline-none"
             >
-              Open Calendly
+              Open Cal.com
               <ExternalLink aria-hidden="true" className="size-4" />
               <span className="sr-only"> (opens in a new tab)</span>
             </a>
@@ -164,7 +159,7 @@ export function CalendlyEmbed({
         >
           <CalendarCheck aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-emerald-600" />
           <p>
-            Your discovery call is booked. Calendly has sent the confirmation and calendar invitation to
+            Your discovery call is booked. Cal.com has sent the confirmation and calendar invitation to
             the email address you provided.
           </p>
         </div>
@@ -174,7 +169,7 @@ export function CalendlyEmbed({
         <p className="p-6 text-center text-sm text-slate-ink">
           JavaScript is required to show the scheduler.{" "}
           <a className="text-electric-600 underline" href={url}>
-            Book directly on Calendly
+            Book directly on Cal.com
           </a>
           .
         </p>

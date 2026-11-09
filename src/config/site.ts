@@ -1,4 +1,5 @@
-const DEFAULT_CALENDLY_URL = "https://calendly.com/business-aritrade/";
+const DEFAULT_BOOKING_URL =
+  "https://cal.com/business-aritra-dftt3z/20min?user=business-aritra-dftt3z&overlayCalendar=true";
 
 function clean(value: string | undefined) {
   const trimmed = value?.trim();
@@ -30,7 +31,7 @@ export const siteConfig = {
   description:
     "RevEx Consultancy is an independent B2B business development consultancy in India helping startups, SaaS and technology companies acquire customers through lead generation, outbound sales, prospect qualification and discovery-call generation.",
   url: resolveSiteUrl(),
-  calendlyUrl: clean(process.env.NEXT_PUBLIC_CALENDLY_URL) ?? DEFAULT_CALENDLY_URL,
+  bookingUrl: clean(process.env.NEXT_PUBLIC_CAL_BOOKING_URL) ?? DEFAULT_BOOKING_URL,
   linkedinUrl: clean(process.env.NEXT_PUBLIC_LINKEDIN_URL),
   businessEmail: clean(process.env.NEXT_PUBLIC_BUSINESS_EMAIL),
   gaId: clean(process.env.NEXT_PUBLIC_GA_ID),

@@ -45,12 +45,12 @@ export function Footer() {
               </CtaLink>
             </div>
             <a
-              href={siteConfig.calendlyUrl}
+              href={siteConfig.bookingUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-4 inline-block text-xs text-steel underline-offset-4 hover:text-white hover:underline"
             >
-              Or open our Calendly page directly
+              Or open our Cal.com page directly
               <span className="sr-only"> (opens in a new tab)</span>
             </a>
           </div>

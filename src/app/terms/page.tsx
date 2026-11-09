@@ -52,7 +52,7 @@ const sections: LegalSection[] = [
     heading: "Bookings and enquiries",
     body: (
       <p>
-        Discovery calls are scheduled through Calendly and are subject to Calendly&apos;s terms. Submitting an
+        Discovery calls are scheduled through Cal.com and are subject to Cal.com&apos;s terms. Submitting an
         enquiry or booking a call does not create a contract or obligation for either party. Please provide
         accurate information and do not submit confidential information you are not authorised to share.
       </p>
@@ -72,7 +72,7 @@ const sections: LegalSection[] = [
     heading: "Third-party links",
     body: (
       <p>
-        The site links to external websites, including partner websites and Calendly. We are not responsible
+        The site links to external websites, including partner websites and Cal.com. We are not responsible
         for the content, policies or practices of those sites.
       </p>
     ),

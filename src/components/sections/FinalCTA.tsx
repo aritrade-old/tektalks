@@ -56,7 +56,7 @@ export function FinalCTA({
             </li>
             <li className="flex items-center gap-2">
               <CalendarClock aria-hidden="true" className="size-4 text-electric-300" />
-              Live availability via Calendly
+              Live availability via Cal.com
             </li>
           </ul>
         </div>

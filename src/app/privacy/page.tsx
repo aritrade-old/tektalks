@@ -7,7 +7,7 @@ import { createPageMetadata } from "@/lib/seo";
 export const metadata = createPageMetadata({
   title: "Privacy Policy",
   description:
-    "How RevEx Consultancy collects, uses and protects personal information submitted through its website, contact form and Calendly booking integration.",
+    "How RevEx Consultancy collects, uses and protects personal information submitted through its website, contact form and Cal.com booking integration.",
   path: "/privacy",
 });
 
@@ -45,13 +45,13 @@ const sections: LegalSection[] = [
             you write in the enquiry.
           </li>
           <li>
-            <strong>Discovery-call bookings:</strong> bookings are made through Calendly, which collects
+            <strong>Discovery-call bookings:</strong> bookings are made through Cal.com, which collects
             the details you enter in its scheduler (such as name, email and any answers you provide).
           </li>
           <li>
             <strong>Campaign attribution:</strong> where present, campaign parameters in the link you used
             to reach us (for example utm_source or utm_campaign) or the referring website. These are kept in
-            your browser session and passed to Calendly or included with an enquiry so we know which channel
+            your browser session and passed to Cal.com or included with an enquiry so we know which channel
             you came from.
           </li>
           <li>
@@ -85,9 +85,9 @@ const sections: LegalSection[] = [
         <p>We use a small number of trusted providers who process data on our behalf:</p>
         <ul>
           <li>
-            <strong>Calendly</strong> — scheduling and booking confirmations (
-            <a href="https://calendly.com/privacy" target="_blank" rel="noopener noreferrer">
-              Calendly privacy notice
+            <strong>Cal.com</strong> — scheduling and booking confirmations (
+            <a href="https://cal.com/privacy" target="_blank" rel="noopener noreferrer">
+              Cal.com privacy policy
             </a>
             ).
           </li>
@@ -115,7 +115,7 @@ const sections: LegalSection[] = [
       <p>
         The site stores a small amount of data in your browser: your analytics consent choice (local storage)
         and campaign attribution for the current session (session storage). Analytics cookies are only set
-        if you accept them. The embedded Calendly scheduler may set its own cookies necessary for booking.
+        if you accept them. The embedded Cal.com scheduler may set its own cookies necessary for booking.
       </p>
     ),
   },

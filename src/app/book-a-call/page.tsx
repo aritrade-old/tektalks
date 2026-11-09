@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { CalendarCheck, Clock, MessageSquare, Target, Video } from "lucide-react";
 
-import { CalendlyEmbed } from "@/components/shared/CalendlyEmbed";
+import { CalEmbed } from "@/components/shared/CalEmbed";
 import { siteConfig } from "@/config/site";
 import { createPageMetadata } from "@/lib/seo";
 
@@ -86,7 +86,7 @@ export default function BookACallPage() {
             </ul>
             <div className="mt-10 rounded-2xl border border-border bg-mist p-6 text-sm leading-relaxed text-slate-ink">
               <p>
-                Availability and confirmations are managed by Calendly. You&apos;ll receive a calendar
+                Availability and confirmations are managed by Cal.com. You&apos;ll receive a calendar
                 invitation by email as soon as your booking is confirmed.
               </p>
               <p className="mt-3">
@@ -110,17 +110,17 @@ export default function BookACallPage() {
                   Live availability
                 </span>
               </div>
-              <CalendlyEmbed />
+              <CalEmbed />
             </div>
             <p className="mt-4 text-center text-xs text-slate-ink">
               Having trouble with the scheduler?{" "}
               <a
-                href={siteConfig.calendlyUrl}
+                href={siteConfig.bookingUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-electric-600 underline underline-offset-2 hover:text-navy"
               >
-                Open the booking page on Calendly
+                Open the booking page on Cal.com
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>
               .

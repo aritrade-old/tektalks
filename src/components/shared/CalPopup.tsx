@@ -6,10 +6,10 @@ import { useState } from "react";
 import { bookingCta } from "@/config/navigation";
 import { siteConfig } from "@/config/site";
 import { captureAttribution } from "@/lib/attribution";
-import { ensureCalendlyStylesheet, loadCalendly, toCalendlyUtm } from "@/lib/calendly";
+import { loadCal, parseCalBooking, withAttribution } from "@/lib/cal";
 import { trackEvent } from "@/lib/analytics";
 
-type CalendlyPopupProps = {
+type CalPopupProps = {
   children: React.ReactNode;
   className?: string;
   url?: string;
@@ -19,22 +19,23 @@ type CalendlyPopupProps = {
 };
 
 /**
- * Opens Calendly's official popup widget. Renders as a link to the booking page
- * so it still works without JavaScript or if the Calendly script is blocked.
+ * Opens Cal.com's official modal booker. Renders as a link to the booking page
+ * so it still works without JavaScript or if the Cal.com script is blocked.
  */
-export function CalendlyPopup({
+export function CalPopup({
   children,
   className,
-  url = siteConfig.calendlyUrl,
+  url = siteConfig.bookingUrl,
   location = "popup",
   ...rest
-}: CalendlyPopupProps) {
+}: CalPopupProps) {
   const router = useRouter();
   const [opening, setOpening] = useState(false);
 
   function preload() {
-    ensureCalendlyStylesheet();
-    loadCalendly().catch(() => undefined);
+    loadCal()
+      .then((cal) => cal("preload", { calLink: parseCalBooking(url).calLink }))
+      .catch(() => undefined);
   }
 
   async function open(event: React.MouseEvent<HTMLAnchorElement>) {
@@ -43,9 +44,12 @@ export function CalendlyPopup({
     setOpening(true);
     trackEvent("booking_cta_click", { location });
     try {
-      ensureCalendlyStylesheet();
-      const calendly = await loadCalendly();
-      calendly.initPopupWidget({ url, utm: toCalendlyUtm(captureAttribution()) });
+      const cal = await loadCal();
+      const booking = parseCalBooking(url);
+      cal("modal", {
+        calLink: booking.calLink,
+        config: { layout: "month_view", theme: "light", ...withAttribution(booking.config, captureAttribution()) },
+      });
     } catch {
       router.push(bookingCta.href);
     } finally {

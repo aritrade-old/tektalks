@@ -114,8 +114,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en-IN" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <head>
-        <link rel="preconnect" href="https://assets.calendly.com" />
-        <link rel="dns-prefetch" href="https://calendly.com" />
+        <link rel="preconnect" href="https://app.cal.com" />
+        <link rel="dns-prefetch" href="https://cal.com" />
       </head>
       <body className="flex min-h-full flex-col bg-white">
         <Navbar />

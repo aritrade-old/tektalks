@@ -4,19 +4,19 @@ Marketing website for **RevEx Consultancy**, an independent B2B business develop
 
 > We Build Conversations. You Build Customers.
 
-Built with Next.js 16 (App Router, Cache Components), React 19, TypeScript, Tailwind CSS v4, shadcn/ui (Base UI), Framer Motion, React Hook Form + Zod, Resend and Calendly's official embed. Ready to deploy on Vercel.
+Built with Next.js 16 (App Router, Cache Components), React 19, TypeScript, Tailwind CSS v4, shadcn/ui (Base UI), Framer Motion, React Hook Form + Zod, Resend and Cal.com's official embed. Ready to deploy on Vercel.
 
 ---
 
 ## Features
 
 - **10 pages**: Home, Services, Industries, Our Approach, Partnerships, About, Book a Discovery Call, Contact, Privacy Policy, Terms of Service — plus a custom 404.
-- **Calendly booking (central feature)**
-  - `/book-a-call` embeds the live Calendly scheduler inline using Calendly's official `widget.js` (`Calendly.initInlineWidget`), with auto-resize, a loading state, error handling with retry, and a fallback link.
-  - "Book a 20-Min Call" floating button opens Calendly's official popup widget (falls back to `/book-a-call` if Calendly is blocked). Hidden on `/book-a-call` and when the footer is in view.
-  - Every "Book a Discovery Call" CTA (navigation, mobile menu, hero, services, partnerships, about, contact, footer) uses the same booking flow and the same Calendly URL.
-  - Calendly `postMessage` events (`profile_page_viewed`, `event_type_viewed`, `date_and_time_selected`, `event_scheduled`) are forwarded to analytics as event names only — no invitee data.
-  - UTM attribution is captured per session and passed to Calendly (see below).
+- **Cal.com booking (central feature)**
+  - `/book-a-call` embeds the live Cal.com 20-minute discovery-call calendar inline using Cal.com's official `embed.js` (`Cal("inline")`), with auto-resize, a loading state, error handling with retry, and a fallback link.
+  - "Book a 20-Min Call" floating button opens Cal.com's official modal booker (falls back to `/book-a-call` if Cal.com is blocked). Hidden on `/book-a-call` and when the footer is in view.
+  - Every "Book a Discovery Call" CTA (navigation, mobile menu, hero, services, partnerships, about, contact, footer) uses the same booking flow and the same Cal.com URL.
+  - Cal.com embed events (`linkReady`, `bookingSuccessfulV2`, `linkFailed`) are forwarded to analytics as event names only — no invitee data.
+  - UTM attribution is captured per session and passed to Cal.com (see below).
 - **Contact form** with React Hook Form + Zod (shared client/server schema), server-side validation, honeypot field, minimum fill-time check, same-origin check, per-IP rate limiting, loading/success/error states, and a real email notification via Resend. Submissions are never simulated: if email isn't configured the API returns an error.
 - **Partner engagements** (Sentinel Layer, Dev Creates) rendered from `src/config/partners.ts` through a reusable `PartnerCard` — add a partner by adding an object.
 - **SEO**: per-page titles/descriptions, canonical URLs, Open Graph + Twitter cards with a generated OG image, `sitemap.xml`, `robots.txt`, web manifest, SVG favicon + Apple touch icon, JSON-LD (`ProfessionalService`, `WebSite`, `FAQPage`, service list, `AboutPage`). No reviews, ratings or testimonials are included in structured data.
@@ -32,7 +32,7 @@ src/
     layout.tsx               Root layout, global metadata, JSON-LD, navbar/footer
     page.tsx                 Home
     services/ industries/ approach/ partnerships/ about/
-    book-a-call/             Calendly inline embed
+    book-a-call/             Cal.com inline embed
     contact/                 Contact form + direct booking option
     privacy/ terms/          Legal pages
     api/contact/route.ts     Validated, rate-limited enquiry endpoint (Resend)
@@ -43,11 +43,11 @@ src/
     sections/                Hero, Challenge, Services, Process(+Timeline), Industries,
                              Partnerships, WhyRevex, EngagementModels, About,
                              FounderProfile, FAQ, FinalCTA
-    shared/                  CalendlyEmbed, CalendlyPopup, FloatingBookingButton,
+    shared/                  CalEmbed, CalPopup, FloatingBookingButton,
                              PartnerCard, SectionHeading, ContactForm, CtaLink,
                              PageHero, LegalPage, Reveal, Icon, JsonLd
     visuals/                 PipelineVisual, SentinelVisual, DevCreatesVisual
-    analytics/               SiteTracking (UTM + Calendly events), Analytics (GA4 + consent)
+    analytics/               SiteTracking (UTM capture), Analytics (GA4 + consent)
     ui/                      shadcn/ui primitives (accordion, sheet, input, textarea, label, button)
   config/
     site.ts                  Brand, URLs, env-driven settings
@@ -57,7 +57,7 @@ src/
     partners.ts              Partner engagements
     founder.ts               Founder profile (editable bio, photo, LinkedIn)
   lib/
-    calendly.ts              Script loader (single injection), UTM mapping, message guards
+    cal.ts                   Cal.com embed loader (single injection), events, UTM mapping
     attribution.ts           UTM / referrer attribution capture
     analytics.ts             Consent state + privacy-safe event tracking
     validations.ts           Zod schemas and form options
@@ -77,7 +77,7 @@ public/images/founder/       Place the founder photograph here
    - **Linux:** `bash start-local.command`.
 4. Your browser opens **http://localhost:3000** once it's ready (first run installs dependencies, ~1–2 minutes). Keep the window open while browsing; close it (or press Ctrl+C) to stop.
 
-The launcher creates `.env.local` from `.env.example` on first run. The Calendly booking works immediately; the contact form needs `RESEND_API_KEY` and `CONTACT_EMAIL` in `.env.local` (then run the launcher again).
+The launcher creates `.env.local` from `.env.example` on first run. The Cal.com booking works immediately; the contact form needs `RESEND_API_KEY` and `CONTACT_EMAIL` in `.env.local` (then run the launcher again).
 
 ## Run locally (developer commands)
 
@@ -103,7 +103,7 @@ npm start
 | Variable | Required | Scope | Purpose |
 | --- | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Recommended | Public | Canonical site URL (no trailing slash). Falls back to the Vercel production domain, then `http://localhost:3000`. |
-| `NEXT_PUBLIC_CALENDLY_URL` | Yes | Public | Calendly page used everywhere. Default `https://calendly.com/business-aritrade/`. |
+| `NEXT_PUBLIC_CAL_BOOKING_URL` | Optional | Public | Cal.com booking page used everywhere. Defaults to the 20-minute discovery call: `https://cal.com/business-aritra-dftt3z/20min?user=business-aritra-dftt3z&overlayCalendar=true`. |
 | `RESEND_API_KEY` | Yes, for the form | Server | Resend API key. |
 | `CONTACT_EMAIL` | Yes, for the form | Server | Inbox that receives enquiries (comma-separate multiple). |
 | `RESEND_FROM_EMAIL` | Recommended | Server | Verified sender, e.g. `RevEx Website <enquiries@yourdomain.com>`. Defaults to `onboarding@resend.dev`. |
@@ -119,15 +119,15 @@ npm start
 2. Until you verify a domain, Resend's `onboarding@resend.dev` sender can **only deliver to the email address that owns the Resend account** — set `CONTACT_EMAIL` to that address for testing.
 3. For production, verify your domain in Resend (DNS records), then set `RESEND_FROM_EMAIL` to an address on that domain.
 
-## Calendly integration
+## Cal.com integration
 
-- The booking URL lives in one place: `NEXT_PUBLIC_CALENDLY_URL` (read in `src/config/site.ts`).
-- The profile URL lists every event type on the account. To send visitors straight to one event's calendar, point the variable at that event, e.g. `https://calendly.com/business-aritrade/revex-consulting`.
-- Availability, booking and confirmation emails come entirely from Calendly — the site never fabricates slots or confirmations.
+- The booking URL lives in one place: `NEXT_PUBLIC_CAL_BOOKING_URL` (read in `src/config/site.ts`). The path (`username/event-slug`) is the embed's `calLink`; query parameters such as `overlayCalendar=true` are forwarded to the embed.
+- Event title, description, duration and availability are edited in Cal.com, not in this codebase.
+- Availability, booking and confirmation emails come entirely from Cal.com — the site never fabricates slots or confirmations.
 
 ### UTM attribution
 
-Attribution is stored in `sessionStorage` and passed to Calendly with its supported `utm_source`, `utm_medium`, `utm_campaign`, `utm_content` and `utm_term` parameters. Rules:
+Attribution is stored in `sessionStorage` and passed to Cal.com as `utm_source`, `utm_medium`, `utm_campaign`, `utm_content` and `utm_term` parameters. Rules:
 
 - UTM parameters in the landing URL win and are merged key-by-key — a stored value is never replaced by an empty one.
 - `?ref=partner-name` is shorthand for `utm_source=partner-name&utm_medium=referral`.
@@ -144,7 +144,7 @@ Suggested link conventions:
 | Referral partner | `https://yourdomain.com/?ref=partner-name` |
 | Google Ads | `...?utm_source=google&utm_medium=cpc&utm_campaign=b2b-leadgen` |
 
-In Calendly, UTM values appear on each scheduled event's details and in Calendly's reporting/integrations.
+Cal.com receives the UTM values as booking-page query parameters.
 
 ## Editing content
 
@@ -171,12 +171,12 @@ git push -u origin main
 
 1. Go to [vercel.com/new](https://vercel.com/new) and import the GitHub repository.
 2. Framework preset: **Next.js** (auto-detected). Build command `next build`, output default. Root directory: the folder containing `package.json`.
-3. Add environment variables (Settings → Environment Variables) for **Production** (and Preview if desired): `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_CALENDLY_URL`, `RESEND_API_KEY`, `CONTACT_EMAIL`, `RESEND_FROM_EMAIL`, plus optional `NEXT_PUBLIC_LINKEDIN_URL`, `NEXT_PUBLIC_BUSINESS_EMAIL`, `NEXT_PUBLIC_GA_ID`.
+3. Add environment variables (Settings → Environment Variables) for **Production** (and Preview if desired): `NEXT_PUBLIC_SITE_URL`, `RESEND_API_KEY`, `CONTACT_EMAIL`, `RESEND_FROM_EMAIL`, plus optional `NEXT_PUBLIC_LINKEDIN_URL`, `NEXT_PUBLIC_BUSINESS_EMAIL`, `NEXT_PUBLIC_GA_ID`.
 4. Click **Deploy**.
 5. Verify on the live URL:
    - Every page loads and navigation works on desktop and mobile.
-   - `/book-a-call` shows live Calendly availability; make a test booking and confirm it appears in Calendly; cancel it afterwards.
-   - The floating "Book a 20-Min Call" button opens the Calendly popup.
+   - `/book-a-call` shows live Cal.com availability; make a test booking and confirm it appears in Cal.com; cancel it afterwards.
+   - The floating "Book a 20-Min Call" button opens the Cal.com popup.
    - Submit the contact form and confirm the email arrives at `CONTACT_EMAIL`.
    - `/sitemap.xml` and `/robots.txt` use your production domain.
 
@@ -190,4 +190,4 @@ git push -u origin main
 ## Notes
 
 - The contact-form rate limiter is in-memory, so each serverless instance keeps its own window. It is combined with honeypot, timing and same-origin checks; for stricter global limits, back it with a shared store such as Upstash Redis.
-- Calendly may display its own cookie notice inside the embed; it is left enabled so Calendly can collect consent for its cookies.
+- The Cal.com embed may set its own cookies needed for booking.

@@ -288,7 +288,7 @@ export const faqs: FaqItem[] = [
   {
     question: "How does the discovery-call process work?",
     answer:
-      "Book a 20-minute discovery call directly on this website through our Calendly scheduler. On the call, we discuss what you sell, who you want to reach and where you need support, then explore whether there is a good fit and which engagement model makes sense.",
+      "Book a 20-minute discovery call directly on this website through our Cal.com scheduler. On the call, we discuss what you sell, who you want to reach and where you need support, then explore whether there is a good fit and which engagement model makes sense.",
   },
   {
     question: "How do I start working with RevEx?",
