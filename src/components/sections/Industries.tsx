@@ -29,7 +29,9 @@ export function Industries({ showHeading = true, showLink = true, className }: I
               </CtaLink>
             ) : null}
           </div>
-        ) : null}
+        ) : (
+          <h2 className="sr-only">Target industries</h2>
+        )}
 
         <ul className="grid gap-px overflow-hidden rounded-3xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
           {industries.map((industry, index) => (

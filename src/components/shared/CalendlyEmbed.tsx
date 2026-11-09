@@ -100,7 +100,7 @@ export function CalendlyEmbed({
         ref={widgetRef}
         id="calendly-embed"
         className={cn(
-          "calendly-inline-widget relative h-[1080px] w-full min-w-[280px] overflow-hidden sm:h-[960px] md:h-[750px]",
+          "relative h-[1080px] w-full min-w-[280px] overflow-hidden sm:h-[960px] md:h-[750px]",
           status === "error" && "hidden",
         )}
         aria-busy={status === "loading"}
@@ -173,7 +173,7 @@ export function CalendlyEmbed({
       <noscript>
         <p className="p-6 text-center text-sm text-slate-ink">
           JavaScript is required to show the scheduler.{" "}
-          <a className="text-electric underline" href={url}>
+          <a className="text-electric-600 underline" href={url}>
             Book directly on Calendly
           </a>
           .

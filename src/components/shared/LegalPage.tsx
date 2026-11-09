@@ -38,7 +38,7 @@ export function LegalPage({ eyebrow, title, intro, lastUpdated, sections }: Lega
                 <h2 className="text-xl font-semibold tracking-[-0.01em] text-navy">
                   {index + 1}. {section.heading}
                 </h2>
-                <div className="mt-4 space-y-4 leading-relaxed text-slate-ink [&_a]:text-electric [&_a]:underline-offset-2 hover:[&_a]:underline [&_li]:pl-1 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5">
+                <div className="mt-4 space-y-4 leading-relaxed text-slate-ink [&_a]:text-electric-600 [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-navy [&_li]:pl-1 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5">
                   {section.body}
                 </div>
               </section>

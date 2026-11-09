@@ -27,7 +27,12 @@ export function Partnerships({ showHeading = true }: PartnershipsProps) {
         ) : null}
         <div className="space-y-8">
           {partners.map((partner, index) => (
-            <PartnerCard key={partner.slug} partner={partner} reverse={index % 2 === 1} />
+            <PartnerCard
+              key={partner.slug}
+              partner={partner}
+              reverse={index % 2 === 1}
+              headingLevel={showHeading ? "h3" : "h2"}
+            />
           ))}
         </div>
       </div>

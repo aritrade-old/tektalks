@@ -38,7 +38,7 @@ export function EngagementModels() {
                 </>
               ) : null}
               <div className="relative flex items-center justify-between">
-                <span className={cn("eyebrow", model.featured ? "text-electric-300" : "text-electric")}>
+                <span className={cn("eyebrow", model.featured ? "text-electric-300" : "text-electric-600")}>
                   {model.label}
                 </span>
                 {model.featured ? (

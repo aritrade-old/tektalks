@@ -23,7 +23,7 @@ function ServiceCard({ service, detailed, index }: { service: Service; detailed:
         <span className="flex size-11 items-center justify-center rounded-xl bg-navy text-white transition group-hover:bg-electric">
           <Icon name={service.icon} className="size-5" />
         </span>
-        <span className="font-mono text-sm tracking-wider text-steel">{service.number}</span>
+        <span className="font-mono text-sm tracking-wider text-steel-600">{service.number}</span>
       </div>
       <h3 className="relative mt-7 text-xl font-semibold tracking-[-0.015em] text-navy">{service.title}</h3>
       <p className="relative mt-3 leading-relaxed text-slate-ink">{service.summary}</p>
@@ -66,7 +66,9 @@ export function Services({ detailed = false, showHeading = true, className }: Se
               </CtaLink>
             ) : null}
           </div>
-        ) : null}
+        ) : (
+          <h2 className="sr-only">Our services</h2>
+        )}
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => (
             <ServiceCard key={service.id} service={service} detailed={detailed} index={index} />

@@ -31,14 +31,14 @@ export function FounderProfile() {
           </div>
 
           <div>
-            <p className="eyebrow text-electric">
+            <p className="eyebrow text-electric-600">
               <span aria-hidden="true" className="h-px w-6 bg-electric/60" />
               Founder
             </p>
             <h2 id="founder-heading" className="mt-5 text-3xl font-semibold tracking-[-0.025em] text-navy sm:text-4xl">
               {founder.name}
             </h2>
-            <p className="mt-2 font-medium text-electric">{founder.designation}</p>
+            <p className="mt-2 font-medium text-electric-600">{founder.designation}</p>
             <p className="text-sm text-slate-ink">{founder.organisation}</p>
             <div className="mt-8 space-y-4 leading-relaxed text-slate-ink">
               {founder.bio.map((paragraph) => (

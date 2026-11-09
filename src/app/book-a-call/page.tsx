@@ -91,7 +91,7 @@ export default function BookACallPage() {
               </p>
               <p className="mt-3">
                 Prefer to write first?{" "}
-                <Link href="/contact" className="font-medium text-electric underline-offset-2 hover:underline">
+                <Link href="/contact" className="font-medium text-electric-600 underline underline-offset-2 hover:text-navy">
                   Send a business enquiry
                 </Link>
                 .
@@ -118,7 +118,7 @@ export default function BookACallPage() {
                 href={siteConfig.calendlyUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-electric underline-offset-2 hover:underline"
+                className="text-electric-600 underline underline-offset-2 hover:text-navy"
               >
                 Open the booking page on Calendly
                 <span className="sr-only"> (opens in a new tab)</span>

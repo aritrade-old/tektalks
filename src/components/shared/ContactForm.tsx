@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, type FieldError } from "react-hook-form";
 import { CircleAlert, CircleCheck, LoaderCircle, Send } from "lucide-react";
 
@@ -37,10 +37,10 @@ const engagementParamMap: Record<string, (typeof engagementOptions)[number]> = {
 };
 
 const fieldClass =
-  "h-11 rounded-xl border-input bg-white px-3.5 text-[0.95rem] text-navy shadow-none placeholder:text-steel focus-visible:border-electric focus-visible:ring-electric/20";
+  "h-11 rounded-xl border-input bg-white px-3.5 text-[0.95rem] text-navy shadow-none placeholder:text-steel-600 focus-visible:border-electric focus-visible:ring-electric/20";
 const selectClass = cn(
   fieldClass,
-  "w-full appearance-none border bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%234B5468%22 stroke-width=%222%22><path d=%22m6 9 6 6 6-6%22/></svg>')] bg-[length:1rem] bg-[right_0.9rem_center] bg-no-repeat pr-10 outline-none focus-visible:ring-3 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20",
+  "w-full appearance-none border bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%234B5468%22 stroke-width=%222%22><path d=%22m6 9 6 6 6-6%22/></svg>')] bg-[length:1rem] bg-[right_0.9rem_center] bg-no-repeat pr-10 outline-none invalid:text-steel-600 [&>option]:text-navy focus-visible:ring-3 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20",
 );
 
 function FieldMessage({ id, error }: { id: string; error?: FieldError | { message?: string } }) {
@@ -63,7 +63,7 @@ function RequiredMark() {
 
 export function ContactForm() {
   const [submitState, setSubmitState] = useState<SubmitState>({ status: "idle" });
-  const startedAtInput = useRef<HTMLInputElement>(null);
+  const [startedAt, setStartedAt] = useState(0);
 
   const {
     register,
@@ -87,7 +87,6 @@ export function ContactForm() {
   });
 
   useEffect(() => {
-    if (startedAtInput.current) startedAtInput.current.value = String(Date.now());
     const engagement = new URLSearchParams(window.location.search).get("engagement");
     const mapped = engagement ? engagementParamMap[engagement] : undefined;
     if (mapped) setValue("engagement", mapped);
@@ -106,7 +105,7 @@ export function ContactForm() {
         body: JSON.stringify({
           ...values,
           companyFax: readHidden("companyFax"),
-          startedAt: Number(readHidden("startedAt")) || 0,
+          startedAt,
           attribution: attribution ?? undefined,
         }),
       });
@@ -129,6 +128,7 @@ export function ContactForm() {
       }
       trackEvent("contact_form_submitted", { engagement: values.engagement });
       reset();
+      setStartedAt(0);
       setSubmitState({ status: "success" });
     } catch {
       setSubmitState({
@@ -173,7 +173,12 @@ export function ContactForm() {
   const describedBy = (name: string) => (errors[name as keyof typeof errors] ? `${name}-error` : undefined);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="relative space-y-6" aria-label="Business enquiry form">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      onFocusCapture={() => {
+        if (startedAt === 0) setStartedAt(Date.now());
+      }}
+      noValidate className="relative space-y-6" aria-label="Business enquiry form">
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <Label htmlFor="fullName" className="mb-2 text-navy">
@@ -198,7 +203,7 @@ export function ContactForm() {
         </div>
         <div>
           <Label htmlFor="website" className="mb-2 text-navy">
-            Website URL <span className="font-normal text-steel">(optional)</span>
+            Website URL <span className="font-normal text-steel-600">(optional)</span>
           </Label>
           <Input id="website" type="text" inputMode="url" autoComplete="url" placeholder="company.com" className={fieldClass} aria-invalid={Boolean(errors.website)} aria-describedby={describedBy("website")} {...register("website")} />
           <FieldMessage id="website-error" error={errors.website} />
@@ -214,7 +219,7 @@ export function ContactForm() {
           <Label htmlFor="industry" className="mb-2 text-navy">
             Industry <RequiredMark />
           </Label>
-          <select id="industry" defaultValue="" className={selectClass} aria-invalid={Boolean(errors.industry)} aria-describedby={describedBy("industry")} aria-required="true" {...register("industry")}>
+          <select id="industry" required defaultValue="" className={selectClass} aria-invalid={Boolean(errors.industry)} aria-describedby={describedBy("industry")} aria-required="true" {...register("industry")}>
             <option value="" disabled>
               Select your industry
             </option>
@@ -230,7 +235,7 @@ export function ContactForm() {
           <Label htmlFor="geography" className="mb-2 text-navy">
             Target geography <RequiredMark />
           </Label>
-          <select id="geography" defaultValue="" className={selectClass} aria-invalid={Boolean(errors.geography)} aria-describedby={describedBy("geography")} aria-required="true" {...register("geography")}>
+          <select id="geography" required defaultValue="" className={selectClass} aria-invalid={Boolean(errors.geography)} aria-describedby={describedBy("geography")} aria-required="true" {...register("geography")}>
             <option value="" disabled>
               Where are your customers?
             </option>
@@ -246,7 +251,7 @@ export function ContactForm() {
           <Label htmlFor="engagement" className="mb-2 text-navy">
             Preferred engagement model <RequiredMark />
           </Label>
-          <select id="engagement" defaultValue="" className={selectClass} aria-invalid={Boolean(errors.engagement)} aria-describedby={describedBy("engagement")} aria-required="true" {...register("engagement")}>
+          <select id="engagement" required defaultValue="" className={selectClass} aria-invalid={Boolean(errors.engagement)} aria-describedby={describedBy("engagement")} aria-required="true" {...register("engagement")}>
             <option value="" disabled>
               Select a model
             </option>
@@ -299,7 +304,6 @@ export function ContactForm() {
         <label htmlFor="companyFax">Company fax (leave blank)</label>
         <input id="companyFax" name="companyFax" type="text" tabIndex={-1} autoComplete="off" defaultValue="" />
       </div>
-      <input ref={startedAtInput} type="hidden" name="startedAt" defaultValue="0" />
 
       {submitState.status === "error" ? (
         <div role="alert" className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">
@@ -329,7 +333,7 @@ export function ContactForm() {
         <p className="max-w-sm text-xs leading-relaxed text-slate-ink">
           By submitting, you agree that RevEx may use these details to respond to your enquiry, as described
           in our{" "}
-          <Link href="/privacy" className="text-electric underline-offset-2 hover:underline">
+          <Link href="/privacy" className="text-electric-600 underline underline-offset-2 hover:text-navy">
             Privacy Policy
           </Link>
           .

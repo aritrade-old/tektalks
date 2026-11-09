@@ -27,8 +27,8 @@ export function PartnerCard({ partner, reverse = false, headingLevel = "h3" }: P
       as="article"
       className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-b from-white/[0.05] to-white/[0.015] p-6 sm:p-10"
     >
-      <div className={cn("grid items-start gap-10 lg:grid-cols-2 lg:gap-14", reverse && "lg:[&>*:first-child]:order-2")}>
-        <div className="lg:sticky lg:top-28">
+      <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
+        <div className={cn("order-2 lg:sticky lg:top-28", reverse ? "lg:order-2" : "lg:order-1")}>
           <Visual />
           <div className="mt-6 flex items-start gap-3 rounded-xl border border-electric/20 bg-electric/[0.06] p-4 text-sm leading-relaxed text-white/80">
             <Info aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-electric-300" />
@@ -36,7 +36,7 @@ export function PartnerCard({ partner, reverse = false, headingLevel = "h3" }: P
           </div>
         </div>
 
-        <div>
+        <div className={cn("order-1", reverse ? "lg:order-1" : "lg:order-2")}>
           <div className="flex flex-wrap items-center gap-3">
             <span className="eyebrow text-electric-300">{partner.index}</span>
             <span aria-hidden="true" className="h-px w-8 bg-white/15" />
@@ -57,7 +57,7 @@ export function PartnerCard({ partner, reverse = false, headingLevel = "h3" }: P
           </Heading>
           <p className="mt-4 leading-relaxed text-steel">{partner.description}</p>
 
-          <h4 className="eyebrow mt-8 text-white/60">RevEx business development responsibilities</h4>
+          <p className="eyebrow mt-8 text-white/60">RevEx business development responsibilities</p>
           <ul className="mt-4 grid gap-x-6 gap-y-2.5 sm:grid-cols-2">
             {partner.responsibilities.map((item) => (
               <li key={item} className="flex items-start gap-2.5 text-sm leading-snug text-white/85">

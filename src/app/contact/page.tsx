@@ -85,7 +85,7 @@ export default function ContactPage() {
           </div>
 
           <div className="rounded-[1.75rem] border border-border bg-white p-6 shadow-[0_40px_100px_-50px_rgb(11_16_32/0.45)] sm:p-10">
-            <span className="eyebrow text-electric">Option 02</span>
+            <span className="eyebrow text-electric-600">Option 02</span>
             <h2 className="mt-4 text-2xl font-semibold tracking-[-0.02em] text-navy">Send a business enquiry</h2>
             <p className="mt-2 mb-8 text-slate-ink">
               Prefer to share details first? Complete the form and RevEx will reply by email.

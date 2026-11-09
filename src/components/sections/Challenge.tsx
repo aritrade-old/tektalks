@@ -28,7 +28,7 @@ export function Challenge() {
                 delay={(index % 2) * 0.06}
                 className="group relative rounded-2xl border border-border bg-mist/60 p-6 transition duration-300 hover:-translate-y-0.5 hover:border-electric/30 hover:bg-white hover:shadow-[0_20px_50px_-24px_rgb(11_16_32/0.25)]"
               >
-                <span className="font-mono text-xs tracking-wider text-electric">
+                <span className="font-mono text-xs tracking-wider text-electric-600">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <h3 className="mt-4 text-lg font-semibold tracking-[-0.01em] text-navy">{item.title}</h3>

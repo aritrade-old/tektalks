@@ -42,21 +42,21 @@ export function Hero() {
             </CtaLink>
           </div>
 
-          <dl className="mt-12 grid max-w-xl gap-5 border-t border-white/10 pt-8 sm:grid-cols-3">
+          <ul className="mt-12 grid max-w-xl gap-5 border-t border-white/10 pt-8 sm:grid-cols-3">
             {[
               { icon: CalendarClock, term: "Discovery call", value: "20 minutes, booked online" },
               { icon: Globe, term: "Coverage", value: "India & international" },
               { icon: ShieldCheck, term: "Model", value: "Independent & partner-led" },
             ].map(({ icon: IconComponent, term, value }) => (
-              <div key={term} className="flex items-start gap-3">
+              <li key={term} className="flex items-start gap-3">
                 <IconComponent aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-electric-300" />
                 <div>
-                  <dt className="text-xs font-medium tracking-wide text-white/50 uppercase">{term}</dt>
-                  <dd className="mt-1 text-sm text-white/90">{value}</dd>
+                  <p className="text-xs font-medium tracking-wide text-white/50 uppercase">{term}</p>
+                  <p className="mt-1 text-sm text-white/90">{value}</p>
                 </div>
-              </div>
+              </li>
             ))}
-          </dl>
+          </ul>
         </div>
 
         <PipelineVisual />

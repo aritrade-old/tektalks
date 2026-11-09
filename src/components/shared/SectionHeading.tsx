@@ -31,7 +31,7 @@ export function SectionHeading({
       )}
     >
       {eyebrow ? (
-        <p className={cn("eyebrow mb-5", dark ? "text-electric-300" : "text-electric")}>
+        <p className={cn("eyebrow mb-5", dark ? "text-electric-300" : "text-electric-600")}>
           <span
             aria-hidden="true"
             className={cn("h-px w-6", dark ? "bg-electric-300/60" : "bg-electric/60")}

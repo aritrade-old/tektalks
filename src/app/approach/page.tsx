@@ -66,7 +66,7 @@ export default function ApproachPage() {
               <Reveal as="li" key={step.number} delay={(index % 3) * 0.05} className="rounded-2xl border border-border bg-mist/50 p-7">
                 <div className="flex items-baseline justify-between">
                   <span className="text-2xl font-semibold text-navy">{step.title}</span>
-                  <span className="font-mono text-sm text-electric">{step.number}</span>
+                  <span className="font-mono text-sm text-electric-600">{step.number}</span>
                 </div>
                 <p className="mt-3 leading-relaxed text-slate-ink">{step.summary}</p>
                 <ul className="mt-5 space-y-2 border-t border-border pt-5">

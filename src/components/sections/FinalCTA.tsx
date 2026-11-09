@@ -15,8 +15,8 @@ export function FinalCTA({
   showContact = true,
 }: FinalCTAProps) {
   return (
-    <section className="bg-white px-3 pb-3 sm:px-5 sm:pb-5" aria-labelledby="final-cta-heading">
-      <div className="dark relative isolate mx-auto max-w-[96rem] overflow-hidden rounded-[2rem] bg-navy px-6 py-20 text-white sm:px-12 sm:py-28">
+    <section aria-labelledby="final-cta-heading">
+      <div className="dark relative isolate overflow-hidden bg-navy px-6 py-24 text-white sm:px-12 sm:py-32">
         <div aria-hidden="true" className="bg-grid mask-fade-b absolute inset-0 -z-10" />
         <div aria-hidden="true" className="glow-electric absolute -bottom-64 left-1/2 -z-10 size-[56rem] -translate-x-1/2 opacity-70" />
         <div

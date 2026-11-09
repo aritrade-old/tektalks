@@ -15,7 +15,7 @@ export const ctaVariants = cva(
           "border border-white/15 bg-white/5 text-white backdrop-blur hover:border-white/30 hover:bg-white/10 focus-visible:ring-offset-navy",
         outlineLight:
           "border border-navy/15 bg-white text-navy hover:border-electric/40 hover:text-electric focus-visible:ring-offset-white",
-        ghostLight: "text-electric hover:text-navy px-0! focus-visible:ring-offset-white",
+        ghostLight: "text-electric-600 hover:text-navy px-0! focus-visible:ring-offset-white",
         ghostDark: "text-electric-300 hover:text-white px-0! focus-visible:ring-offset-navy",
       },
       size: {

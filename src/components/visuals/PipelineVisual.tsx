@@ -40,8 +40,11 @@ export function PipelineVisual() {
         <div aria-hidden="true" className="bg-grid absolute inset-0 opacity-40" />
 
         <div className="relative mb-6 flex items-center justify-between">
-          <p className="eyebrow text-steel">Business development pipeline</p>
-          <span className="flex items-center gap-2 font-mono text-[0.68rem] tracking-wider text-electric-300">
+          <p className="eyebrow text-steel">
+            <span className="sm:hidden">BD pipeline</span>
+            <span className="hidden sm:inline">Business development pipeline</span>
+          </p>
+          <span className="flex items-center gap-2 whitespace-nowrap font-mono text-[0.68rem] tracking-wider text-electric-300">
             <span className="relative flex size-2">
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-electric opacity-60" />
               <span className="relative inline-flex size-2 rounded-full bg-electric" />
@@ -60,9 +63,14 @@ export function PipelineVisual() {
                   type="button"
                   onClick={() => setActive(index)}
                   aria-pressed={isActive}
-                  style={{ width: `${100 - index * 9}%` }}
+                  style={
+                    {
+                      "--stage-w": `${100 - index * 5}%`,
+                      "--stage-w-sm": `${100 - index * 9}%`,
+                    } as React.CSSProperties
+                  }
                   className={cn(
-                    "group relative flex h-13 items-center justify-between rounded-xl border px-4 text-left transition-colors duration-300 focus-visible:ring-3 focus-visible:ring-electric/60 focus-visible:outline-none sm:h-14 sm:px-5",
+                    "group relative flex h-13 w-(--stage-w) sm:w-(--stage-w-sm) items-center justify-between rounded-xl border px-4 text-left transition-colors duration-300 focus-visible:ring-3 focus-visible:ring-electric/60 focus-visible:outline-none sm:h-14 sm:px-5",
                     isActive
                       ? "border-electric/70 text-white"
                       : isPast
@@ -81,7 +89,7 @@ export function PipelineVisual() {
                   <span className="relative font-mono text-[0.68rem] tracking-wider opacity-70">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <span className="relative text-[0.7rem] font-semibold tracking-[0.14em] uppercase sm:text-xs">
+                  <span className="relative text-[0.66rem] font-semibold tracking-[0.1em] whitespace-nowrap uppercase sm:text-xs sm:tracking-[0.14em]">
                     {item.label}
                   </span>
                   <span aria-hidden="true" className="relative w-5" />
