@@ -67,7 +67,19 @@ src/
 public/images/founder/       Place the founder photograph here
 ```
 
-## Run locally
+## Run on your laptop (quick start)
+
+1. Install **Node.js LTS** (version 20.9 or newer) from [nodejs.org](https://nodejs.org) — accept the defaults.
+2. Unzip the project and open the folder.
+3. Start the site:
+   - **Windows:** double-click `start-local.bat`.
+   - **macOS:** right-click `start-local.command` → **Open** (the first time macOS asks for confirmation). Or in Terminal: `bash start-local.command`.
+   - **Linux:** `bash start-local.command`.
+4. Your browser opens **http://localhost:3000** once it's ready (first run installs dependencies, ~1–2 minutes). Keep the window open while browsing; close it (or press Ctrl+C) to stop.
+
+The launcher creates `.env.local` from `.env.example` on first run. The Calendly booking works immediately; the contact form needs `RESEND_API_KEY` and `CONTACT_EMAIL` in `.env.local` (then run the launcher again).
+
+## Run locally (developer commands)
 
 Requires Node.js 20.9+ (tested with Node 22).
 
