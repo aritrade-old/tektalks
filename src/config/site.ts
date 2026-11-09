@@ -12,7 +12,10 @@ function withoutTrailingSlash(url: string) {
 function resolveSiteUrl() {
   const explicit = clean(process.env.NEXT_PUBLIC_SITE_URL);
   if (explicit) return withoutTrailingSlash(explicit);
-  const vercelProduction = clean(process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL);
+  const vercelProduction =
+    clean(process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL) ??
+    clean(process.env.VERCEL_PROJECT_PRODUCTION_URL) ??
+    clean(process.env.VERCEL_URL);
   if (vercelProduction) return `https://${withoutTrailingSlash(vercelProduction)}`;
   return "http://localhost:3000";
 }
