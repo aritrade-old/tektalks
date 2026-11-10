@@ -10,7 +10,7 @@ export const founder = {
   initials: "AD",
   designation: "Founder & Independent Business Development Consultant",
   organisation: "RevEx Consultancy",
-  photo: "" as string,
+  photo: "/images/founder/aritra-de.jpg" as string,
   photoAlt: "Portrait of Aritra De, Founder of RevEx Consultancy",
   linkedinUrl: siteConfig.linkedinUrl,
   bio: [

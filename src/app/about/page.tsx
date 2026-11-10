@@ -28,6 +28,7 @@ const aboutJsonLd = {
     name: founder.name,
     jobTitle: founder.designation,
     worksFor: { "@id": `${siteConfig.url}/#organization` },
+    ...(founder.photo ? { image: absoluteUrl(founder.photo) } : {}),
     ...(founder.linkedinUrl ? { sameAs: [founder.linkedinUrl] } : {}),
   },
 };
