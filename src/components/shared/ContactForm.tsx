@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { useForm, type FieldError } from "react-hook-form";
 import { CircleAlert, CircleCheck, LoaderCircle, Send } from "lucide-react";
 
@@ -64,6 +64,9 @@ function RequiredMark() {
 export function ContactForm() {
   const [submitState, setSubmitState] = useState<SubmitState>({ status: "idle" });
   const [startedAt, setStartedAt] = useState(0);
+  // Visited routes stay mounted (hidden) after navigation, so several forms can share the DOM.
+  const uid = useId();
+  const fid = (name: string) => `${uid}-${name}`;
 
   const {
     register,
@@ -170,7 +173,7 @@ export function ContactForm() {
     );
   }
 
-  const describedBy = (name: string) => (errors[name as keyof typeof errors] ? `${name}-error` : undefined);
+  const describedBy = (name: string) => (errors[name as keyof typeof errors] ? fid(`${name}-error`) : undefined);
 
   return (
     <form
@@ -181,45 +184,45 @@ export function ContactForm() {
       noValidate className="relative space-y-6" aria-label="Business enquiry form">
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <Label htmlFor="fullName" className="mb-2 text-navy">
+          <Label htmlFor={fid("fullName")} className="mb-2 text-navy">
             Full name <RequiredMark />
           </Label>
-          <Input id="fullName" autoComplete="name" placeholder="Your full name" className={fieldClass} aria-invalid={Boolean(errors.fullName)} aria-describedby={describedBy("fullName")} aria-required="true" {...register("fullName")} />
-          <FieldMessage id="fullName-error" error={errors.fullName} />
+          <Input id={fid("fullName")} autoComplete="name" placeholder="Your full name" className={fieldClass} aria-invalid={Boolean(errors.fullName)} aria-describedby={describedBy("fullName")} aria-required="true" {...register("fullName")} />
+          <FieldMessage id={fid("fullName-error")} error={errors.fullName} />
         </div>
         <div>
-          <Label htmlFor="email" className="mb-2 text-navy">
+          <Label htmlFor={fid("email")} className="mb-2 text-navy">
             Business email <RequiredMark />
           </Label>
-          <Input id="email" type="email" autoComplete="email" inputMode="email" placeholder="you@company.com" className={fieldClass} aria-invalid={Boolean(errors.email)} aria-describedby={describedBy("email")} aria-required="true" {...register("email")} />
-          <FieldMessage id="email-error" error={errors.email} />
+          <Input id={fid("email")} type="email" autoComplete="email" inputMode="email" placeholder="you@company.com" className={fieldClass} aria-invalid={Boolean(errors.email)} aria-describedby={describedBy("email")} aria-required="true" {...register("email")} />
+          <FieldMessage id={fid("email-error")} error={errors.email} />
         </div>
         <div>
-          <Label htmlFor="company" className="mb-2 text-navy">
+          <Label htmlFor={fid("company")} className="mb-2 text-navy">
             Company name <RequiredMark />
           </Label>
-          <Input id="company" autoComplete="organization" placeholder="Company name" className={fieldClass} aria-invalid={Boolean(errors.company)} aria-describedby={describedBy("company")} aria-required="true" {...register("company")} />
-          <FieldMessage id="company-error" error={errors.company} />
+          <Input id={fid("company")} autoComplete="organization" placeholder="Company name" className={fieldClass} aria-invalid={Boolean(errors.company)} aria-describedby={describedBy("company")} aria-required="true" {...register("company")} />
+          <FieldMessage id={fid("company-error")} error={errors.company} />
         </div>
         <div>
-          <Label htmlFor="website" className="mb-2 text-navy">
+          <Label htmlFor={fid("website")} className="mb-2 text-navy">
             Website URL <span className="font-normal text-steel-600">(optional)</span>
           </Label>
-          <Input id="website" type="text" inputMode="url" autoComplete="url" placeholder="company.com" className={fieldClass} aria-invalid={Boolean(errors.website)} aria-describedby={describedBy("website")} {...register("website")} />
-          <FieldMessage id="website-error" error={errors.website} />
+          <Input id={fid("website")} type="text" inputMode="url" autoComplete="url" placeholder="company.com" className={fieldClass} aria-invalid={Boolean(errors.website)} aria-describedby={describedBy("website")} {...register("website")} />
+          <FieldMessage id={fid("website-error")} error={errors.website} />
         </div>
         <div>
-          <Label htmlFor="designation" className="mb-2 text-navy">
+          <Label htmlFor={fid("designation")} className="mb-2 text-navy">
             Designation <RequiredMark />
           </Label>
-          <Input id="designation" autoComplete="organization-title" placeholder="e.g. Founder, Head of Sales" className={fieldClass} aria-invalid={Boolean(errors.designation)} aria-describedby={describedBy("designation")} aria-required="true" {...register("designation")} />
-          <FieldMessage id="designation-error" error={errors.designation} />
+          <Input id={fid("designation")} autoComplete="organization-title" placeholder="e.g. Founder, Head of Sales" className={fieldClass} aria-invalid={Boolean(errors.designation)} aria-describedby={describedBy("designation")} aria-required="true" {...register("designation")} />
+          <FieldMessage id={fid("designation-error")} error={errors.designation} />
         </div>
         <div>
-          <Label htmlFor="industry" className="mb-2 text-navy">
+          <Label htmlFor={fid("industry")} className="mb-2 text-navy">
             Industry <RequiredMark />
           </Label>
-          <select id="industry" required defaultValue="" className={selectClass} aria-invalid={Boolean(errors.industry)} aria-describedby={describedBy("industry")} aria-required="true" {...register("industry")}>
+          <select id={fid("industry")} required defaultValue="" className={selectClass} aria-invalid={Boolean(errors.industry)} aria-describedby={describedBy("industry")} aria-required="true" {...register("industry")}>
             <option value="" disabled>
               Select your industry
             </option>
@@ -229,13 +232,13 @@ export function ContactForm() {
               </option>
             ))}
           </select>
-          <FieldMessage id="industry-error" error={errors.industry} />
+          <FieldMessage id={fid("industry-error")} error={errors.industry} />
         </div>
         <div>
-          <Label htmlFor="geography" className="mb-2 text-navy">
+          <Label htmlFor={fid("geography")} className="mb-2 text-navy">
             Target geography <RequiredMark />
           </Label>
-          <select id="geography" required defaultValue="" className={selectClass} aria-invalid={Boolean(errors.geography)} aria-describedby={describedBy("geography")} aria-required="true" {...register("geography")}>
+          <select id={fid("geography")} required defaultValue="" className={selectClass} aria-invalid={Boolean(errors.geography)} aria-describedby={describedBy("geography")} aria-required="true" {...register("geography")}>
             <option value="" disabled>
               Where are your customers?
             </option>
@@ -245,13 +248,13 @@ export function ContactForm() {
               </option>
             ))}
           </select>
-          <FieldMessage id="geography-error" error={errors.geography} />
+          <FieldMessage id={fid("geography-error")} error={errors.geography} />
         </div>
         <div>
-          <Label htmlFor="engagement" className="mb-2 text-navy">
+          <Label htmlFor={fid("engagement")} className="mb-2 text-navy">
             Preferred engagement model <RequiredMark />
           </Label>
-          <select id="engagement" required defaultValue="" className={selectClass} aria-invalid={Boolean(errors.engagement)} aria-describedby={describedBy("engagement")} aria-required="true" {...register("engagement")}>
+          <select id={fid("engagement")} required defaultValue="" className={selectClass} aria-invalid={Boolean(errors.engagement)} aria-describedby={describedBy("engagement")} aria-required="true" {...register("engagement")}>
             <option value="" disabled>
               Select a model
             </option>
@@ -261,7 +264,7 @@ export function ContactForm() {
               </option>
             ))}
           </select>
-          <FieldMessage id="engagement-error" error={errors.engagement} />
+          <FieldMessage id={fid("engagement-error")} error={errors.engagement} />
         </div>
       </div>
 
@@ -280,15 +283,15 @@ export function ContactForm() {
             </label>
           ))}
         </div>
-        <FieldMessage id="services-error" error={errors.services as FieldError | undefined} />
+        <FieldMessage id={fid("services-error")} error={errors.services as FieldError | undefined} />
       </fieldset>
 
       <div>
-        <Label htmlFor="requirements" className="mb-2 text-navy">
+        <Label htmlFor={fid("requirements")} className="mb-2 text-navy">
           Business development requirements <RequiredMark />
         </Label>
         <Textarea
-          id="requirements"
+          id={fid("requirements")}
           rows={6}
           placeholder="What do you sell, who are you trying to reach, and where do you need business development support?"
           className={cn(fieldClass, "min-h-36 py-3")}
@@ -297,12 +300,12 @@ export function ContactForm() {
           aria-required="true"
           {...register("requirements")}
         />
-        <FieldMessage id="requirements-error" error={errors.requirements} />
+        <FieldMessage id={fid("requirements-error")} error={errors.requirements} />
       </div>
 
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
-        <label htmlFor="companyFax">Company fax (leave blank)</label>
-        <input id="companyFax" name="companyFax" type="text" tabIndex={-1} autoComplete="off" defaultValue="" />
+        <label htmlFor={fid("companyFax")}>Company fax (leave blank)</label>
+        <input id={fid("companyFax")} name="companyFax" type="text" tabIndex={-1} autoComplete="off" defaultValue="" />
       </div>
 
       {submitState.status === "error" ? (

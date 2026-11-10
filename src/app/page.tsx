@@ -1,8 +1,8 @@
 import { About } from "@/components/sections/About";
 import { Challenge } from "@/components/sections/Challenge";
+import { ContactSection } from "@/components/sections/ContactSection";
 import { EngagementModels } from "@/components/sections/EngagementModels";
 import { FAQ } from "@/components/sections/FAQ";
-import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Hero } from "@/components/sections/Hero";
 import { Industries } from "@/components/sections/Industries";
 import { Partnerships } from "@/components/sections/Partnerships";
@@ -43,7 +43,7 @@ export default function HomePage() {
       <EngagementModels />
       <About />
       <FAQ />
-      <FinalCTA />
+      <ContactSection />
       <JsonLd data={faqJsonLd} />
     </>
   );

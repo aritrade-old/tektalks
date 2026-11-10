@@ -1,11 +1,5 @@
-import { CalendarClock, Globe, Mail, MapPin } from "lucide-react";
-
+import { ContactOptions } from "@/components/sections/ContactOptions";
 import { FAQ } from "@/components/sections/FAQ";
-import { ContactForm } from "@/components/shared/ContactForm";
-import { CtaLink } from "@/components/shared/CtaLink";
-import { LinkedInIcon } from "@/components/shared/Icon";
-import { bookingCta } from "@/config/navigation";
-import { siteConfig } from "@/config/site";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -36,62 +30,12 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="relative -mt-28 pb-24 sm:pb-32" aria-label="Ways to get in touch">
-        <div className="mx-auto grid max-w-7xl gap-6 px-5 sm:px-8 lg:grid-cols-[0.75fr_1.25fr]">
-          <div className="space-y-6">
-            <div className="dark relative overflow-hidden rounded-[1.75rem] border border-electric/30 bg-navy-700 p-8 text-white">
-              <div aria-hidden="true" className="glow-electric absolute -top-20 -right-20 size-60 opacity-70" />
-              <span className="relative eyebrow text-electric-300">Option 01</span>
-              <CalendarClock aria-hidden="true" className="relative mt-6 size-7 text-electric-300" />
-              <h2 className="relative mt-4 text-2xl font-semibold tracking-[-0.02em]">Ready to talk?</h2>
-              <p className="relative mt-3 leading-relaxed text-steel">
-                Pick a time for a 20-minute discovery call directly in our live calendar — no form required.
-              </p>
-              <CtaLink href={bookingCta.href} className="relative mt-7 w-full">
-                {bookingCta.label}
-              </CtaLink>
-            </div>
-
-            <div className="rounded-[1.75rem] border border-border bg-white p-8">
-              <h2 className="text-base font-semibold text-navy">RevEx Consultancy</h2>
-              <ul className="mt-5 space-y-4 text-sm text-slate-ink">
-                <li className="flex items-start gap-3">
-                  <MapPin aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-electric" />
-                  Based in {siteConfig.location}
-                </li>
-                <li className="flex items-start gap-3">
-                  <Globe aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-electric" />
-                  Serving {siteConfig.serviceGeography}
-                </li>
-                {siteConfig.businessEmail ? (
-                  <li className="flex items-start gap-3">
-                    <Mail aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-electric" />
-                    <a href={`mailto:${siteConfig.businessEmail}`} className="break-all text-navy hover:text-electric">
-                      {siteConfig.businessEmail}
-                    </a>
-                  </li>
-                ) : null}
-                {siteConfig.linkedinUrl ? (
-                  <li className="flex items-start gap-3">
-                    <LinkedInIcon className="mt-0.5 size-4 shrink-0 text-electric" />
-                    <a href={siteConfig.linkedinUrl} target="_blank" rel="noopener noreferrer" className="text-navy hover:text-electric">
-                      Connect on LinkedIn
-                      <span className="sr-only"> (opens in a new tab)</span>
-                    </a>
-                  </li>
-                ) : null}
-              </ul>
-            </div>
-          </div>
-
-          <div className="rounded-[1.75rem] border border-border bg-white p-6 shadow-[0_40px_100px_-50px_rgb(11_16_32/0.45)] sm:p-10">
-            <span className="eyebrow text-electric-600">Option 02</span>
-            <h2 className="mt-4 text-2xl font-semibold tracking-[-0.02em] text-navy">Send a business enquiry</h2>
-            <p className="mt-2 mb-8 text-slate-ink">
-              Prefer to share details first? Complete the form and RevEx will reply by email.
-            </p>
-            <ContactForm />
-          </div>
+      <section className="relative -mt-28 pb-24 sm:pb-32" aria-labelledby="contact-options-heading">
+        <h2 id="contact-options-heading" className="sr-only">
+          Ways to get in touch
+        </h2>
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <ContactOptions />
         </div>
       </section>
 

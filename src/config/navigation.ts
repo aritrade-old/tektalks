@@ -10,9 +10,10 @@ export const mainNav: NavItem[] = [
   { label: "Our Approach", href: "/approach" },
   { label: "Partnerships", href: "/partnerships" },
   { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ];
 
-export const footerNav: NavItem[] = [...mainNav, { label: "Contact", href: "/contact" }];
+export const footerNav: NavItem[] = mainNav;
 
 export const footerServices: NavItem[] = [
   { label: "B2B Lead Generation", href: "/services#b2b-lead-generation" },

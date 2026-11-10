@@ -55,7 +55,7 @@ export function Navbar() {
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "relative rounded-full px-3.5 py-2 text-sm font-medium transition-colors focus-visible:ring-3 focus-visible:ring-electric/60 focus-visible:outline-none",
+                    "relative rounded-full px-2.5 py-2 text-sm font-medium whitespace-nowrap transition-colors xl:px-3.5 focus-visible:ring-3 focus-visible:ring-electric/60 focus-visible:outline-none",
                     active ? "text-white" : "text-steel hover:text-white",
                   )}
                 >

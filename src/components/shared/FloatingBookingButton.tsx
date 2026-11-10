@@ -13,30 +13,36 @@ const SHOW_AFTER_PX = 560;
 export function FloatingBookingButton() {
   const pathname = usePathname();
   const [scrolledEnough, setScrolledEnough] = useState(false);
-  const [footerVisible, setFooterVisible] = useState(false);
+  const [blockingVisible, setBlockingVisible] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolledEnough(window.scrollY > SHOW_AFTER_PX);
+    // Hide over the footer and the contact options, which already carry booking CTAs.
+    // Queried on every update because streamed or hidden (previously visited) routes
+    // change which of these elements are on screen.
+    const onScroll = () => {
+      setScrolledEnough(window.scrollY > SHOW_AFTER_PX);
+      const viewportBottom = window.innerHeight - 40;
+      const targets = document.querySelectorAll<HTMLElement>("#site-footer, [data-hide-floating-cta]");
+      setBlockingVisible(
+        Array.from(targets).some((element) => {
+          const rect = element.getBoundingClientRect();
+          return rect.height > 0 && rect.top < viewportBottom && rect.bottom > 0;
+        }),
+      );
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-
-    const footer = document.getElementById("site-footer");
-    const observer = footer
-      ? new IntersectionObserver(([entry]) => setFooterVisible(entry.isIntersecting), {
-          rootMargin: "0px 0px -40px 0px",
-        })
-      : null;
-    if (footer && observer) observer.observe(footer);
+    window.addEventListener("resize", onScroll);
 
     return () => {
       window.removeEventListener("scroll", onScroll);
-      observer?.disconnect();
+      window.removeEventListener("resize", onScroll);
     };
   }, [pathname]);
 
   if (pathname === bookingCta.href) return null;
 
-  const visible = scrolledEnough && !footerVisible;
+  const visible = scrolledEnough && !blockingVisible;
 
   return (
     <div

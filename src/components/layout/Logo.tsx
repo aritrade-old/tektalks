@@ -21,17 +21,17 @@ export function Logo({ className }: { className?: string }) {
         "group inline-flex items-center gap-2.5 rounded-lg focus-visible:ring-3 focus-visible:ring-electric/60 focus-visible:outline-none",
         className,
       )}
-      aria-label={`${siteConfig.name} — home`}
     >
       <LogoMark />
       <span className="flex flex-col leading-none">
         <span className="text-[0.95rem] font-bold tracking-[0.16em] text-white">
           {siteConfig.logoText}
-        </span>
+        </span>{" "}
         <span className="mt-1 text-[0.58rem] font-medium tracking-[0.32em] text-steel">
           {siteConfig.logoSubtext}
         </span>
       </span>
+      <span className="sr-only"> — home</span>
     </Link>
   );
 }
