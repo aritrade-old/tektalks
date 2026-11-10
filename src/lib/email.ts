@@ -2,6 +2,7 @@ import "server-only";
 
 import { Resend } from "resend";
 
+import { siteConfig } from "@/config/site";
 import type { ContactFormValues } from "@/lib/validations";
 
 const DEFAULT_FROM = "RevEx Website <onboarding@resend.dev>";
@@ -24,7 +25,7 @@ function escapeHtml(value: string) {
 
 function getEmailConfig() {
   const apiKey = process.env.RESEND_API_KEY?.trim();
-  const to = process.env.CONTACT_EMAIL?.trim();
+  const to = process.env.CONTACT_EMAIL?.trim() || siteConfig.businessEmail;
   if (!apiKey || !to) return null;
   return {
     apiKey,

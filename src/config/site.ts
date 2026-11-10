@@ -1,5 +1,5 @@
-const DEFAULT_BOOKING_URL =
-  "https://cal.com/business-aritra-dftt3z/20min?user=business-aritra-dftt3z&overlayCalendar=true";
+const DEFAULT_BOOKING_URL = "https://cal.com/revex-consultancy-0hcrw5/20min?overlayCalendar=true";
+const DEFAULT_BUSINESS_EMAIL = "revexconsultancy@gmail.com";
 
 function clean(value: string | undefined) {
   const trimmed = value?.trim();
@@ -33,7 +33,7 @@ export const siteConfig = {
   url: resolveSiteUrl(),
   bookingUrl: clean(process.env.NEXT_PUBLIC_CAL_BOOKING_URL) ?? DEFAULT_BOOKING_URL,
   linkedinUrl: clean(process.env.NEXT_PUBLIC_LINKEDIN_URL),
-  businessEmail: clean(process.env.NEXT_PUBLIC_BUSINESS_EMAIL),
+  businessEmail: clean(process.env.NEXT_PUBLIC_BUSINESS_EMAIL) ?? DEFAULT_BUSINESS_EMAIL,
   gaId: clean(process.env.NEXT_PUBLIC_GA_ID),
   location: "India",
   serviceGeography: "India and international markets",

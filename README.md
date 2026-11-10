@@ -103,12 +103,12 @@ npm start
 | Variable | Required | Scope | Purpose |
 | --- | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Recommended | Public | Canonical site URL (no trailing slash). Falls back to the Vercel production domain, then `http://localhost:3000`. |
-| `NEXT_PUBLIC_CAL_BOOKING_URL` | Optional | Public | Cal.com booking page used everywhere. Defaults to the 20-minute discovery call: `https://cal.com/business-aritra-dftt3z/20min?user=business-aritra-dftt3z&overlayCalendar=true`. |
+| `NEXT_PUBLIC_CAL_BOOKING_URL` | Optional | Public | Cal.com booking page used everywhere. Defaults to the 20-minute discovery call: `https://cal.com/revex-consultancy-0hcrw5/20min?overlayCalendar=true`. |
 | `RESEND_API_KEY` | Yes, for the form | Server | Resend API key. |
-| `CONTACT_EMAIL` | Yes, for the form | Server | Inbox that receives enquiries (comma-separate multiple). |
+| `CONTACT_EMAIL` | Optional | Server | Inbox that receives enquiries (comma-separate multiple). Defaults to the business email. |
 | `RESEND_FROM_EMAIL` | Recommended | Server | Verified sender, e.g. `RevEx Website <enquiries@yourdomain.com>`. Defaults to `onboarding@resend.dev`. |
 | `NEXT_PUBLIC_LINKEDIN_URL` | Optional | Public | LinkedIn profile; links are hidden when empty. |
-| `NEXT_PUBLIC_BUSINESS_EMAIL` | Optional | Public | Email shown in the footer/contact page; hidden when empty. |
+| `NEXT_PUBLIC_BUSINESS_EMAIL` | Optional | Public | Email shown in the footer, contact page, privacy policy and structured data. Defaults to `revexconsultancy@gmail.com`. |
 | `NEXT_PUBLIC_GA_ID` | Optional | Public | GA4 measurement ID; no analytics or consent banner when empty. |
 
 `NEXT_PUBLIC_*` values are embedded at build time — redeploy after changing them. Server-only values (`RESEND_API_KEY`, `CONTACT_EMAIL`, `RESEND_FROM_EMAIL`) are never sent to the browser.
@@ -116,7 +116,7 @@ npm start
 ### Setting up Resend
 
 1. Create an account at [resend.com](https://resend.com) and an API key → `RESEND_API_KEY`.
-2. Until you verify a domain, Resend's `onboarding@resend.dev` sender can **only deliver to the email address that owns the Resend account** — set `CONTACT_EMAIL` to that address for testing.
+2. Until you verify a domain, Resend's `onboarding@resend.dev` sender can **only deliver to the email address that owns the Resend account** — so the Resend account should be owned by `revexconsultancy@gmail.com`, the inbox that receives enquiries.
 3. For production, verify your domain in Resend (DNS records), then set `RESEND_FROM_EMAIL` to an address on that domain.
 
 ## Cal.com integration
