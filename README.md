@@ -103,7 +103,7 @@ npm start
 | Variable | Required | Scope | Purpose |
 | --- | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Recommended | Public | Canonical site URL (no trailing slash). Falls back to the Vercel production domain, then `http://localhost:3000`. |
-| `NEXT_PUBLIC_CAL_BOOKING_URL` | Optional | Public | Cal.com booking page used everywhere. Defaults to the 20-minute discovery call: `https://cal.com/revex-consultancy-0hcrw5/20min?overlayCalendar=true`. |
+| `NEXT_PUBLIC_CAL_BOOKING_URL` | Optional | Public | Cal.com booking page used everywhere. Defaults to the 20-minute discovery call: `https://cal.com/revexconsultancy/20min?overlayCalendar=true`. |
 | `RESEND_API_KEY` | Yes, for the form | Server | Resend API key. |
 | `CONTACT_EMAIL` | Optional | Server | Inbox that receives enquiries (comma-separate multiple). Defaults to the business email. |
 | `RESEND_FROM_EMAIL` | Recommended | Server | Verified sender, e.g. `RevEx Website <enquiries@yourdomain.com>`. Defaults to `onboarding@resend.dev`. |

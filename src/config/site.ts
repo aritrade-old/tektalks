@@ -1,4 +1,4 @@
-const DEFAULT_BOOKING_URL = "https://cal.com/revex-consultancy-0hcrw5/20min?overlayCalendar=true";
+const DEFAULT_BOOKING_URL = "https://cal.com/revexconsultancy/20min?overlayCalendar=true";
 const DEFAULT_BUSINESS_EMAIL = "revexconsultancy@gmail.com";
 
 function clean(value: string | undefined) {
